@@ -102,13 +102,12 @@ def realizar_scraping(busqueda, ciudades, max_scroll=10):
                 print(f"⚠️ Error al extraer un negocio en {ciudad}: {e}")
                 continue
 
+    driver.quit()
     # Crear un DataFrame y guardarlo como archivo Excel
     df = pd.DataFrame(resultados)
     archivo_path = os.path.join(DOWNLOAD_FOLDER, f"scraping_{busqueda}.xlsx")
     df.to_excel(archivo_path, index=False)
     print(archivo_path)
-    driver.quit()
-
     return archivo_path
 
 
