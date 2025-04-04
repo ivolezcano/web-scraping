@@ -108,6 +108,7 @@ def realizar_scraping(busqueda, ciudades, max_scroll=10):
     archivo_path = os.path.join(DOWNLOAD_FOLDER, f"scraping_{busqueda}.xlsx")
     df.to_excel(archivo_path, index=False)
     print(archivo_path)
+
     return archivo_path
 
 
@@ -127,4 +128,5 @@ def buscar():
 def descargar_archivo(filename):
     return send_from_directory(DOWNLOAD_FOLDER, filename, as_attachment=True)
 
-
+if __name__ == '__main__':
+    app.run(debug=True)
