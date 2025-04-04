@@ -22,10 +22,6 @@ chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--no-sandbox")  
 chrome_options.add_argument("--headless")  # Ejecuta sin interfaz gráfica (opcional)
 
-# Crear servicio y driver correctamente
-service = Service(ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service, options=chrome_options)
-
 app = Flask(__name__)
 
 #Carpeta donde se descarga
@@ -39,6 +35,10 @@ def index():
     return render_template('index.html')
 
 def realizar_scraping(busqueda, ciudades, max_scroll=10):
+    # Crear servicio y driver correctamente
+    service = Service(ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+
     resultados = []  
 
     for ciudad in ciudades:
@@ -107,6 +107,8 @@ def realizar_scraping(busqueda, ciudades, max_scroll=10):
     archivo_path = os.path.join(DOWNLOAD_FOLDER, f"scraping_{busqueda}.xlsx")
     df.to_excel(archivo_path, index=False)
     print(archivo_path)
+    driver.quit()
+
     return archivo_path
 
 
@@ -126,5 +128,4 @@ def buscar():
 def descargar_archivo(filename):
     return send_from_directory(DOWNLOAD_FOLDER, filename, as_attachment=True)
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
